@@ -1,0 +1,1 @@
+default['jenkins_x']['workspace'] = ::File.join(Chef::Config[:file_cache_path], 'jenkins-x')
