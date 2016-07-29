@@ -1,0 +1,78 @@
+<%= @job_type or 'job' %>('<%= @job_id %>', {
+    <% if @job_name %>
+    displayName("""<%= @job_name %>""")
+    <% end %>
+    <% if @job_description %>
+    description("""<%= @job_description %>""")
+    <% end %>
+    <% if @labels %>
+    label("""<%= @labels %>""")
+    <% end %>
+    
+    <# parameters #>
+    <% if @parameter_templates.any? %>
+    parameters {
+        <% for parameter_template in @parameter_templates %>
+        /* parameter template: <%= parameter_template %> */
+        <%= render parameter_template %>
+        <% end %>
+    }
+    <% end %>
+    
+    <# scm #>
+    <% if @scm_templates.any? %>
+    <% if @scm_flavor != :multi_scm %>
+    scm {
+        <% for scm_template in @scm_templates %>
+        /* scm template: <%= scm_template %> */
+        <%= render scm_template %>
+        <% end %>
+    }
+    <% else %>
+    multiscm {
+        <% for scm_template in @scm_templates %>
+        /* scm template: <%= scm_template %> */
+        <%= render scm_template %>
+        <% end %>
+    }
+    <% end %>
+    <% end %>
+    
+    <# steps #>
+    <% if @step_templates.any? %>
+    steps {
+        <% for step_template in @step_templates %>
+        /* step template: <%= step_template %> */
+        <%= render step_template %>
+        <% end %>
+    }
+    <% end %>
+    
+    <# publishers #>
+    <% if @publisher_templates.any? %>
+    publishers {
+        <% for publisher_template in @publisher_templates %>
+        /* publisher template: <%= publisher_template %> */
+        <%= render publisher_template %>
+        <% end %>
+    }
+    <% end %>
+    
+    <# wrappers #>
+    <% if @wrapper_templates.any? %>
+    wrappers {
+        <% for wrapper_template in @wrapper_templates %>
+        /* wrapper template: <%= wrapper_template %> */
+        <%= render wrapper_template %>
+        <% end %>
+    }
+    <% end %>
+    
+    <# extra templates #>
+    <% if @extra_templates.any? %>
+    <% for extra_template in @extra_templates %>
+    /* extra template: <%= extra_template %> */
+    <%= render extra_template %>
+    <% end %>
+    <% end %>
+})

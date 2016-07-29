@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description><%= @description or '' =></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <% for step in @steps %>
+    <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@<%= @job_dsl_plugin_version or '1.48' %>">
+      <scriptText><![CDATA[<%= step[:content] %>]</scriptText>
+      <usingScriptText>true</usingScriptText>
+      <ignoreExisting><%= step[:ignore_existing] or 'false' %></ignoreExisting>
+      <ignoreMissingFiles>false</ignoreMissingFiles>
+      <removedJobAction><%= step[:removed_job_action] or 'IGNORE' %></removedJobAction>
+      <removedViewAction><%= step[:removed_view_action] or 'IGNORE' %></removedViewAction>
+      <lookupStrategy><%= step[:lookup_strategy] or 'JENKINS_ROOT' %></lookupStrategy>
+      <additionalClasspath></additionalClasspath>
+    </javaposse.jobdsl.plugin.ExecuteDslScripts>
+    <% end %>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
